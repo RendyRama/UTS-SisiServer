@@ -1,0 +1,48 @@
+{% extends "../base.html" %} {% block content %}
+<div class="container mx-auto px-4 py-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Kelola Supplier</h2>
+
+  <div class="mb-4">
+    <a
+      href="{% url 'create_supplier' %}"
+      class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition duration-200"
+    >
+      Tambah Supplier Baru
+    </a>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+    <table class="min-w-full table-auto border-collapse border border-gray-300">
+      <thead class="bg-gray-800 text-gray-200">
+        <tr>
+          <th class="py-3 px-4 text-left">Nama</th>
+          <th class="py-3 px-4 text-left">Info Kontak</th>
+          <th class="py-3 px-4 text-center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm text-gray-700">
+        {% for supplier in suppliers %}
+        <tr class="border-b hover:bg-gray-100">
+          <td class="py-3 px-4">{{ supplier.name }}</td>
+          <td class="py-3 px-4">{{ supplier.contact_info }}</td>
+          <td class="py-3 px-4 text-center">
+            <a
+              href="{% url 'update_supplier' supplier.id %}"
+              class="bg-yellow-400 hover:bg-yellow-500 text-white py-1 px-3 rounded text-sm transition duration-200 inline-block"
+            >
+              Ubah
+            </a>
+            <a
+              href="{% url 'delete_supplier' supplier.id %}"
+              class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm transition duration-200 inline-block ml-2"
+            >
+              Hapus
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
