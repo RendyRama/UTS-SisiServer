@@ -1,0 +1,50 @@
+{% extends "../base.html" %} {% block content %}
+<div class="container mx-auto px-4 py-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Kelola Kategori</h2>
+
+  <div class="mb-4">
+    <a
+      href="{% url 'create_category' %}"
+      class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition duration-200"
+    >
+      Tambah Kategori Baru
+    </a>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
+        <tr class="bg-gray-800 text-gray-200 uppercase text-sm leading-normal">
+          <th class="py-3 px-6 text-left">Nama</th>
+          <th class="py-3 px-6 text-left">Deskripsi</th>
+          <th class="py-3 px-6 text-center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700 text-sm font-light">
+        {% for category in categories %}
+        <tr
+          class="border-b border-gray-300 hover:bg-gray-100 transition duration-150"
+        >
+          <td class="py-3 px-6 text-left">{{ category.name }}</td>
+          <td class="py-3 px-6 text-left">{{ category.description }}</td>
+          <td class="py-3 px-6 text-center">
+            <a
+              href="{% url 'update_category' category.id %}"
+              class="bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-1 px-3 rounded text-sm transition duration-200 inline-block"
+            >
+              Edit
+            </a>
+            <a
+              href="{% url 'delete_category' category.id %}"
+              class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded text-sm transition duration-200 inline-block ml-2"
+            >
+              Hapus
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
