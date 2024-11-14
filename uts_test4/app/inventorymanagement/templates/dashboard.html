@@ -1,0 +1,112 @@
+<head>
+  <title>Inventaris Alat Tulis - Manajemen Stationery</title>
+  
+</head>
+
+{% extends "base.html" %} {% block content %}
+<div class="container mx-auto px-6 py-8">
+  <h2 class="section-header">Dasbor Inventaris Alat Tulis</h2>
+
+  <!-- Stok -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="card">
+      <h5 class="font-semibold text-gray-700">Total Stok</h5>
+      <p class="text-2xl font-medium text-gray-800">{{ total_stock }}</p>
+    </div>
+    <div class="card">
+      <h5 class="font-semibold text-gray-700">Total Nilai Stok</h5>
+      <p class="text-2xl font-medium text-gray-800">
+        Rp {{ total_stock_value|floatformat:2 }}
+      </p>
+    </div>
+    <div class="card">
+      <h5 class="font-semibold text-gray-700">Rata-Rata Harga Stok</h5>
+      <p class="text-2xl font-medium text-gray-800">
+        Rp {{ average_price|floatformat:2 }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Kategori dan Supplier Berdampingan -->
+  <div class="category-supplier-layout mb-12">
+    <!-- Kategori -->
+    <div class="card">
+      <h5 class="section-header">Kategori</h5>
+      <table
+        class="min-w-full table-auto border-collapse border border-gray-200"
+      >
+        <thead class="bg-gray-800 text-gray-200">
+          <tr>
+            <th class="py-3 px-4 text-left">Kategori</th>
+            <th class="py-3 px-4 text-left">Jumlah Item</th>
+            <th class="py-3 px-4 text-left">Total Nilai Stok</th>
+            <th class="py-3 px-4 text-left">Rata-Rata Harga</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm text-gray-700">
+          {% for category in categories %}
+          <tr class="border-b hover:bg-gray-100">
+            <td class="py-3 px-4">{{ category.name }}</td>
+            <td class="py-3 px-4">{{ category.item_count }}</td>
+            <td class="py-3 px-4">
+              Rp {{ category.total_stock_value|floatformat:2 }}
+            </td>
+            <td class="py-3 px-4">
+              Rp {{ category.average_price|floatformat:2 }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pemasok -->
+    <div class="card">
+      <h5 class="section-header">Supplier</h5>
+      <table
+        class="min-w-full table-auto border-collapse border border-gray-200"
+      >
+        <thead class="bg-gray-800 text-gray-200">
+          <tr>
+            <th class="py-3 px-4 text-left">Supplier</th>
+            <th class="py-3 px-4 text-left">Jumlah Item</th>
+            <th class="py-3 px-4 text-left">Total Nilai Supplier</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm text-gray-700">
+          {% for supplier in suppliers %}
+          <tr class="border-b hover:bg-gray-100">
+            <td class="py-3 px-4">{{ supplier.name }}</td>
+            <td class="py-3 px-4">{{ supplier.item_count }}</td>
+            <td class="py-3 px-4">
+              Rp {{ supplier.total_value_supplied|floatformat:2 }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Barang di Bawah Ambang Batas -->
+  <div class="table-container mb-12">
+    <div class="card bg-yellow-500 text-dark">
+      <h5 class="section-header text-gray-800">
+        Minimum Alat Tulis yang Memerlukan Pengisian Ulang ({{ threshold }})
+      </h5>
+      <ul class="list-none">
+        {% for item in items_below_threshold %}
+        <li
+          class="flex justify-between items-center py-3 px-4 border-b border-gray-300"
+        >
+          <span class="text-lg">{{ item.name }}</span>
+          <span class="bg-red-500 text-white py-1 px-3 rounded-full"
+            >{{ item.quantity }}</span
+          >
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
